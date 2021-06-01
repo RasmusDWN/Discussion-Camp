@@ -3,11 +3,11 @@ module.exports = () => {
   const router = express.Router();
 
   /**** Routes ****/
-  router.get('/hello', async (req, res) => {
-    res.json({msg: "Hello, world!"});
+  router.get('/disccamp', async (req, res) => {
+    res.json({msg: "Welcome!"});
   });
 
-  router.get('/hello/:name', async (req, res) => {
+  router.get('/disccamp/:name', async (req, res) => {
     res.json({msg: `Hello, ${req.params.name}`});
   });
 

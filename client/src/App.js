@@ -6,7 +6,7 @@ function App() {
   
   useEffect(() => {
     async function getData() {
-      const url = `${API_URL}/hello`;
+      const url = `${API_URL}/disccamp`;
       const response = await fetch(url);
       const data = await response.json();
       setData(data.msg);
@@ -16,7 +16,7 @@ function App() {
 
   return (
     <>
-      <h1>MERN App!</h1>
+      <h1>Discussion Camp</h1>
       <p>Data from server: {data}</p>
     </>
   );
