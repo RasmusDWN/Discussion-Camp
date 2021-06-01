@@ -6,11 +6,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 /**** Configuration ****/
 const app = express(); 
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost/disccamp';
 
-function createServer() {
+async function createServer() {
+
+  await mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+
+  const postDB = require("./postDB")(mongoose);
+  await postDB.bootstrap();
+
+  // Require Routes
   const routes = require("./routes")();
 
   app.use(bodyParser.json()); 
