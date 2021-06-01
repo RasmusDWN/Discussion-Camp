@@ -8,6 +8,7 @@ module.exports = (mongoose) => {
         title: String,
         username: String,
         description: String,
+        date: Date,
         comments: [commentSchema]
     });
 
