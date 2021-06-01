@@ -17,6 +17,7 @@ async function createServer() {
   await mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
   const postDB = require("./postDB")(mongoose);
+  const userDB = require("./userDB")(mongoose);
   await postDB.bootstrap();
 
   // Require Routes
