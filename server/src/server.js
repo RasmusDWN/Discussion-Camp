@@ -21,7 +21,7 @@ async function createServer() {
   await topicDB.bootstrap();
 
   // Require Routes
-  const routes = require("./routes")();
+  const routes = require("./routes")(topicDB);
 
   app.use(bodyParser.json()); 
   app.use(bodyParser.urlencoded({ extended: false }));

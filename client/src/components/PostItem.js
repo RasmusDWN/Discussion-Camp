@@ -1,4 +1,4 @@
-import Button from "./CButton";
+import Button from "./Button";
 import { useNavigate } from "@reach/router";
 
 export default function PostItem({ id, post, desc, username, hideButton }) {
