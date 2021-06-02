@@ -11,8 +11,30 @@ module.exports = (mongoose) => {
         date: Date,
         comments: [commentSchema]
     });
+    const topicSchema = new mongoose.Schema({
+        title: String,
+        posts: [postSchema]
+    })
 
-    const Post = mongoose.model('Post', postSchema);
+    const Topic = mongoose.model('Topic', topicSchema);
+
+    async function getTopics() {
+        try {
+            return await Topic.find();
+        } catch (error) {
+            console.error("getTopics:", error.message);
+            return {};
+        }
+    }
+
+    async function getTopic(id) {
+        try {
+            return await Topic.findById(id);
+        } catch (error) {
+            console.error("getTopic:", error.message);
+            return {};
+        }
+    }
 
     async function createPost(title, description) {
         
@@ -37,7 +59,7 @@ module.exports = (mongoose) => {
     // Searching for documents
     async function getPosts() {
         try {
-            return await Post.find();
+            return await Topic.find();
         } catch (error) {
             console.error("getPost:", error.message);
             return {};
@@ -46,30 +68,34 @@ module.exports = (mongoose) => {
 
     async function getPost(id) {
         try {
-            return await Post.findById(id);
+            return await Topic.findById(id);
         } catch (error) {
             console.error("getPost:", error.message);
             return {};
         }
     }
 
-    async function bootstrap(count = 10) {
-        let l = (await getPosts()).length;
-        console.log("Post collection size:", l);
+    async function bootstrap(count = 4) {
+        let l = (await getTopics()).length;
+        console.log("Topic collection size:", l);
         
         if (l === 0) {
             let promises = [];
             for (let i = 0; i < count; i++) {
-                let newPost = new Post({
-                    title: `Post number ${i}`, 
-                    escription: `desc test`, 
-                    Comments: [{
-                        comment: `This is a Comment`,
+                let newTopic = new Topic({
+                    title: `Topic number ${i}`,
+                    posts: [{
+                        title: `this is a title`,
                         username: `Username`,
-                        upvotes: 0
-                    }] 
+                        description: `description`,
+                        comments: [{
+                            comment: `this is a comment`,
+                            username: `Username`,
+                            upvotes: 0
+                        }]                        
+                    }]
                 });
-                promises.push(newPost.save());
+                promises.push(newTopic.save());
             }
             return Promise.all(promises);
         }
@@ -83,7 +109,7 @@ module.exports = (mongoose) => {
         };
 
         // Update Comment from id
-        await Post.findByIdAndUpdate(
+        await Topic.findByIdAndUpdate(
             { _id: id },
             { $push: { comments: newComment} }
         );
@@ -96,15 +122,15 @@ module.exports = (mongoose) => {
             votes = 1;
         };
 
-        await Post.updateOne(
+        await Topic.updateOne(
             {'comments._id': commentId},
             {'$inc': { 'comments.$.upvotes' : votes}}
         );
     }
 
-    
-
     return {
+        getTopics,
+        getTopic,
         createPost,
         getPosts,
         getPost,

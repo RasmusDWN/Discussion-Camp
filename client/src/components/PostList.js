@@ -11,7 +11,7 @@ export default function PostList({posts}) {
 
     return (
         <div className="post-list">
-            {posts.map((posts) => (
+            {posts.map((post) => (
             <PostItem 
                 id={post._id}
                 key={post._id}
