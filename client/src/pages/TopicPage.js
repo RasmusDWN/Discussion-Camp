@@ -1,5 +1,4 @@
 import TopicItem from "../components/TopicItem";
-import PostItem from "../components/PostItem";
 import PostList from "../components/PostList";
 import CreatePost from "../components/CreatePost";
 import { useState, useEffect } from "react";
@@ -52,6 +51,31 @@ export default function TopicPage() {
         return <div>Loading topic...</div>
     }
 
+    async function handlePostCreate(post) {
+        await addNewPost(post);
+    }
+
+    async function addNewPost({ title, description }) {
+        console.log(title, description);
+
+        const newPost = {
+            title: title,
+            description: description
+        };
+
+        const response = await fetch(API_URL + "/api", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify(newPost)
+        });
+
+        const data = await response.json();
+        console.log("Added post: ", data);
+        setTopic({...topic, data});
+    }
+
     return (
         <div className="mx-3">
             <TopicItem 
@@ -63,6 +87,7 @@ export default function TopicPage() {
                 onPostCreate={handlePostPOST}
             />
             
+            <h4>Posts:</h4>
             { <PostList 
                 posts={topic.posts}
             /> }

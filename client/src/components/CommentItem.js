@@ -12,7 +12,7 @@ export default function CommentItem({id, comment, username, upvotes, onVoteClick
         <div className="comment">
             <p>{comment}</p>
             <small>User: {username}</small>
-            <div className="votes">Votes <span className="badge bg-info" style={{cursor: "pointer"}} on onClick={handleVoteClicl}>{upvotes}</span></div>
+            <div className="votes">Votes <span className="badge bg-info" style={{cursor: "pointer"}} on onClick={handleVoteClick}>{upvotes}</span></div>
         </div>
     );
 }
