@@ -22,9 +22,9 @@ export default function Home() {
     }, [isLoading]);
 
     return (
-        <div classname="App mx-3">
+        <div className="App mx-3">
             <h1>Discussion Camp</h1>
-
+        
             <TopicList topics={topics}/>
         </div>
     )

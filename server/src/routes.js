@@ -16,7 +16,7 @@ module.exports = (topicDB) => {
     const post = req.body;
 
     if (post && post.title && post.description) {
-      const savedPost = await topicDB.createPost(post.title, post.description);
+      const savedPost = await topicDB.CreatePost(post.title, post.description);
       res.json(savedPost);
     } else {
       res.status(400).send("Missing title and/or description");

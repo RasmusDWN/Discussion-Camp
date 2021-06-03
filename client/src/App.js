@@ -1,12 +1,14 @@
 import "./App.js";
 import Home from "./pages/Home";
-import PostPage from "./pages/TopicPage";
+import TopicPage from "./pages/TopicPage";
+import PostPage from "./pages/PostPage";
 import {Router} from "@reach/router";
 
 function App() {
   return (
      <Router>
-        <PostPage path="posts/:id" />  
+        <TopicPage path="topics/:id" />  
+        <PostPage path="posts/:id" />
         <Home path="/" />
      </Router>
      
