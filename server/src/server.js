@@ -18,10 +18,10 @@ async function createServer() {
 
   const topicDB = require("./Models/topicDB")(mongoose);
   const userDB = require("./Models/userDB")(mongoose);
-  await topicDB.bootstrap();
+  // await topicDB.bootstrap();
 
   // Require Routes
-  const routes = require("./routes/topicsRoutes")(topicDB);
+  const topicsRoutes = require("./routes/topicsRoutes")(topicDB);
   const userRoutes = require("./routes/userRoutes")(userDB);
 
   app.use(bodyParser.json()); 
@@ -31,7 +31,7 @@ async function createServer() {
   app.use(express.static(path.resolve('..', 'client', 'build'))); 
   
   /**** Add routes ****/
-  app.use("/api", routes);
+  app.use("/api", topicsRoutes);
   app.use('/user', userRoutes);
 
   // "Redirect" all non-API GET requests to React's entry point (index.html)

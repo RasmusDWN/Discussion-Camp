@@ -67,31 +67,6 @@ export const updatePost = async (req, res) => {
     res.json(updatedPost);
 }
 
-export const bootstrap = async (req, res) => {
-    const { count = 4 } = req.params;
-
-    if (l === 0) {
-        let promises = [];
-        for (let i = 0; i < count; i++) {
-            let newTopic = new Topic({
-                title: `Topic number ${i}`,
-                posts: [{
-                    title: `this is a title`,
-                    username: `Username`,
-                    description: `description`,
-                    createdAt: new Date(),
-                    comments: [{
-                        comment: `this is a comment`,
-                        username: `Username`,
-                        upvotes: 0
-                    }]                        
-                }]
-            });
-            promises.push(newTopic.save());
-        }
-        return Promise.all(promises);
-    }
-
     export const upvote = async (req, res) => {
         const { id } = req.params;
 
@@ -114,5 +89,3 @@ export const bootstrap = async (req, res) => {
     }
 
     export default router;
-    
-}
