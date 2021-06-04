@@ -16,13 +16,13 @@ async function createServer() {
 
   await mongoose.connect(MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
-  const topicDB = require("./topicDB")(mongoose);
-  const userDB = require("./userDB")(mongoose);
+  const topicDB = require("./Models/topicDB")(mongoose);
+  const userDB = require("./Models/userDB")(mongoose);
   await topicDB.bootstrap();
 
   // Require Routes
-  const routes = require("./routes")(topicDB);
-  const userRoutes = require("./userRoutes")(userDB);
+  const routes = require("./routes/topicsRoutes")(topicDB);
+  const userRoutes = require("./routes/userRoutes")(userDB);
 
   app.use(bodyParser.json()); 
   app.use(bodyParser.urlencoded({ extended: false }));

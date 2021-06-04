@@ -2,13 +2,19 @@ module.exports = (mongoose) => {
     const commentSchema = new mongoose.Schema({
         comment: String,
         username: String,
-        upvotes: Number
+        upvotes: {
+            type: Number,
+            default: 0
+        }
     }); 
     const postSchema = new mongoose.Schema({
         title: String,
         username: String,
         description: String,
-        date: Date,
+        createdAt: {
+            type: Date,
+            default: new Date() 
+        },
         comments: [commentSchema]
     });
     const topicSchema = new mongoose.Schema({
@@ -88,7 +94,7 @@ module.exports = (mongoose) => {
                         title: `this is a title`,
                         username: `Username`,
                         description: `description`,
-                        date: new Date(),
+                        createdAt: new Date(),
                         comments: [{
                             comment: `this is a comment`,
                             username: `Username`,
