@@ -1,18 +1,3 @@
-// import express from "express";
-// const router = express.Router();
-
-// const userDB = require("../Models/userDB");
-
-// const { response } = require("express");
-// const userDB = require("../Models/userDB");
-
-// import { signin, signup } from "../controllers/user";
-
-// router.post("/signin", signin);
-// router.post("/signup", signup);
-
-// export default router;
-
 module.exports = (userDB) => {
     const express = require('express');
     const router = express.Router();
@@ -52,7 +37,7 @@ module.exports = (userDB) => {
 
             const hashedPassword = await bcrypt.hash(password, 14);
 
-            const result = await UserModel.create({ username, password: hashedPassword, name: `${username}`});
+            const result = await UserModel.create({ username, password: hashedPassword});
 
             const token = jwt.sign({ username: result.username, id: result._id}, secret, { expiresIn: "1h"});
 

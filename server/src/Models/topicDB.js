@@ -2,10 +2,6 @@ module.exports = (mongoose) => {
     const commentSchema = new mongoose.Schema({
         comment: String,
         username: String,
-        upvotes: {
-            type: Number,
-            default: 0
-        }
     }); 
     const postSchema = new mongoose.Schema({
         title: String,
@@ -42,39 +38,33 @@ module.exports = (mongoose) => {
         }
     }
 
-    async function createPost(title, description, username) {
+    async function createPost(topicId, title, description, username) {
         
         // Add a new Post
-        const newPost = new Post({
+        const newPost = {
             title: title,
             description: description,
             username: username,
             comments: []
-        });
+        };
 
         // Save the new post to the database
         try {
-            let savedPost = await newPost.save();
-            console.log("The posts are now saved", savedPost);
-            return savedPost;
+            await Topic.findByIdAndUpdate(
+                { _id: topicId },
+                { $push: { posts: newPost } }
+            );
+            return newPost;
+
         } catch(error) {
             console.error("savedPosts:", error.message);
         }       
     }
 
-    // Searching for documents
-    async function getPosts() {
-        try {
-            return await Topic.find();
-        } catch (error) {
-            console.error("getPost:", error.message);
-            return {};
-        }
-    }
-
     async function getPost(id) {
         try {
-            return await Topic.findById(id);
+            const topic = await Topic.findOne({ "posts._id": id });
+            return topic.posts.id(id);
         } catch (error) {
             console.error("getPost:", error.message);
             return {};
@@ -108,19 +98,23 @@ module.exports = (mongoose) => {
         }
     }
 
-    async function createComment(id, comment) {
+    async function createComment(postId, comment) {
 
         const newComment = {
             upvotes: 0,
             comment: comment
         };
 
-        // Update Comment from id
-        await Topic.findByIdAndUpdate(
-            { _id: id },
-            { $push: { comments: newComment} }
-        );
-        return newComment;
+        try {
+            await Post.findByIdAndUpdate(
+                { _id: postId },
+                { $push: { comments: newComment} }
+            );
+            return newComment;
+        } catch (error) {
+            console.error("createComment:", error.message);
+            return {};
+        }
     }
 
     async function vote(commentId, vote) {
@@ -139,7 +133,6 @@ module.exports = (mongoose) => {
         getTopics,
         getTopic,
         createPost,
-        getPosts,
         getPost,
         bootstrap,
         createComment,
