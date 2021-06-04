@@ -10,8 +10,4 @@ export default function PostSorting() {
             postlist: newPostList
         });
     }
-    
-    const toggleListReverse (event) {
-
-    }
 }
