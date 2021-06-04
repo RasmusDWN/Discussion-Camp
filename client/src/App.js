@@ -1,18 +1,21 @@
-import "./App.js";
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
+import React from 'react';
+
 import Home from "./pages/Home";
-import TopicPage from "./pages/TopicPage";
-import PostPage from "./pages/PostPage";
-import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
    return (
-     <Router>
-        <Navbar />
-        <Route exact path="/"  component={Home}/>
-     </Router>
+     <BrowserRouter>
+         <div className="container">
+            <Navbar />
+            <Switch>
+               <Route path="/" exact component={Home} />
+               <Route path="/auth" exact component={Auth} />
+            </Switch>
+        </div>
+     </BrowserRouter>
   );
-
 }
 
 export default App;

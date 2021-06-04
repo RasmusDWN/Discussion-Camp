@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import TopicList from "../components/TopicList";
+import { useDispatch } from "react-redux";
+
+import PostList from "../components/PostList";
+import { getPosts } from "../"
 
 const API_URL = process.env.NODE_ENV === "development"
     ? "http://localhost:8080"

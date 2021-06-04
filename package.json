@@ -9,5 +9,9 @@
     "install": "cd client && npm install",
     "build": "cd client && npm run build"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0"
+  }
 }
