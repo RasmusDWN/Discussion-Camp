@@ -13,7 +13,7 @@ export default function TopicPage() {
     const [isLoading, setIsLoading] = useState([true]);
 
     const handlePostPOST = (post) => {
-        const url = `${API_URL}/api/${topic._id}/posts`;
+        const url = `${API_URL}/api/${topic._id}`;
         fetch(url, {
             method: 'POST', 
             mode: 'cors',
@@ -62,9 +62,10 @@ export default function TopicPage() {
             />
             
             <h4>Posts:</h4>
-            { <PostList 
+            <PostList 
+                topicId={topic._id}
                 posts={topic.posts}
-            /> }
+            /> 
 
         </div>
     )

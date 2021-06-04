@@ -13,12 +13,12 @@ const API_URL = process.env.NODE_ENV === "development"
 
 export default function PostPage() {
     
-    const [post, setPost] = useState(null);
     const [isLoading, setIsLoading] = useState([true]); 
     const [topic, setTopic] = useState(null);
 
     const handleCommentPOST = (comment) => {
-        const url = `${API_URL}/api/${post._id}/comments`;
+        const postId = params.postId;
+        const url = `${API_URL}/api/posts/${postId}/comments`;
         fetch(url, {
             method: 'POST', 
             mode: 'cors', 
@@ -38,44 +38,28 @@ export default function PostPage() {
         });
     }
 
-    const handleVote = (commentId) => {
-        const url = `${API_URL}/api/${post._id}/votes/${commentId}`;
-        fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            redirect: 'follow',
-            referrerPolicy: 'no-referrer',
-            body: ""
-          })
-        .then (response => {
-            console.log("Response ", response);
-            if (response.status === 200 || response.status === 201) {
-                setIsLoading(true);
-            }
-        });
-    }
-
     const params = useParams();
 
     useEffect(() => {
-        if (isLoading && params.id) {
-            fetch(API_URL + "/api/" + params.id)
+        if (isLoading && params.postId) {
+            fetch(API_URL + "/api/posts/" + params.postId)
             .then(res => res.json())
             .then(data => { 
-                setPost(data);
                 setTopic(data);
                 setIsLoading(false);
             });
         }
     }, [isLoading]);
 
+    if (!topic) {
+        return <div>Loading...</div>
+    }
+
+    const postId = params.postId;
+    const post = topic.posts.find(p => p._id == postId);  
+    
     if (!post) {
-        return <div>Loading post...</div>
+        return <div>Post not found</div>
     }
 
     return (
@@ -97,7 +81,6 @@ export default function PostPage() {
             />
             { <CommentList 
                 comments={post.comments}
-                onVote={handleVote}
             /> }
         </div>
     )

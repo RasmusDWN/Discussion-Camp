@@ -1,20 +1,19 @@
-import { BrowserRouter, Switch, Route} from 'react-router-dom';
+import { Router } from "@reach/router";
 import React from 'react';
 
 import Home from "./pages/Home";
-import Navbar from "./components/navbar/Navbar";
+import TopicPage from "./pages/TopicPage";
+import PostPage from "./pages/PostPage";
 
 function App() {
    return (
-     <BrowserRouter>
-         <div className="container">
-            <Navbar />
-            <Switch>
-               <Route path="/" exact component={Home} />
-               <Route path="/auth" exact component={Auth} />
-            </Switch>
-        </div>
-     </BrowserRouter>
+      <div className="container">
+         <Router>       
+               <Home path="/" />
+               <TopicPage path="/topics/:id" />
+               <PostPage path="/topics/:id/:postId" />
+         </Router>
+     </div>
   );
 }
 

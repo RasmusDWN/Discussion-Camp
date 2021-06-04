@@ -3,7 +3,7 @@ import TopicItem from "./TopicItem";
 
 export default function TopicList({topics}) {
 
-    if (!topics) {
+    if (!topics || !Array.isArray(topics)) {
         return (
             <div>Loading Topics...</div>
         )
