@@ -26,7 +26,7 @@ export default function CreatePost({onPostCreate}) {
             </div>
             <div className="form-group mb-2">
                 <label htmlFor="postDescription" className="form-label">Describe what your post is about:</label>
-                <textarea className="form-control" id="postDescription" onChange={(event) => setDescription(event.target.value)} value={description}></textarea>
+                <textarea className="form-control" id="postDescription" onChange={(event) => setDescription(event.target.value)} placeholder="Description" value={description}></textarea>
             </div>
             <button type="button" className="btn btn-primary" onClick={handlePostCreate}>Submit post</button>
         </form>

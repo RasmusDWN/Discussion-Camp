@@ -24,7 +24,6 @@ export default function Home() {
     return (
         <div className="App mx-3">
             <h1>Discussion Camp</h1>
-        
             <TopicList topics={topics}/>
         </div>
     )

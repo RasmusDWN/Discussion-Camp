@@ -88,6 +88,7 @@ module.exports = (mongoose) => {
                         title: `this is a title`,
                         username: `Username`,
                         description: `description`,
+                        date: new Date(),
                         comments: [{
                             comment: `this is a comment`,
                             username: `Username`,

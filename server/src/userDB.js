@@ -1,44 +1,51 @@
+const bcrypt = require('bcrypt');
+
 module.exports = (mongoose) => {
     const userSchema = new mongoose.Schema({
-        username: String,
-        password: String
+        username: {
+            type: String,
+            required: true,
+            min: 6,
+            max: 16
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        role: {
+            type: String,
+            enum: ['user', 'admin1'],
+            required: true
+        }
     });
 
     const User = mongoose.model('User', userSchema);
 
-    async function createUser(username, password) {
-
-        // New user
-        const newUser = new User({
-            username: username,
-            password: password
+    userSchema.pre('save', function(next) {
+        if(!this.isModified('password')) {
+            return next();
+        }
+        bcrypt.hash(this.password, 10, (err,passwordHash) => {
+            if(err) {
+                return next(err);
+            }
+            this.password = passwordHash;
+            next();
         });
+    });
 
-        try {
-            let savedUser = await newUser.save();
-            console.log("New user has been created.", savedUser);
-            return savedUser;
-        } catch(error) {
-            console.error("savedUser:", error.message);
-        }
-    }
+    userSchema.methods.comparePassword = function(password, cb) {
+        bcrypt.compare(password, this.password, (err, isMatch) => {
+            if(err) {
+                return cb(err);
+            } else {
+                if(!isMatch) {
+                    return cb(null, isMatch);
+                }
+                return cb(null, this);
+            }
 
-    async function getUsers() {
-        try{
-            return await User.find();
-        } catch(error) {
-            console.error("getUsers:", error.message);
-            return {};
-        }
-    }
-
-    async function getUser(id) {
-        try {
-            return await User.findById(id);
-        } catch(error) {
-            console.error("getUser:", error.message);
-            return {};
-        }
+        });
     }
 
     return {

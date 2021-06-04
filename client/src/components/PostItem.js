@@ -1,7 +1,7 @@
 import Button from "./Button";
 import { useNavigate } from "@reach/router";
 
-export default function PostItem({ id, post, desc, username, hideButton }) {
+export default function PostItem({ id, post, desc, date, username, hideButton }) {
     
     let navigate = useNavigate();
 
@@ -12,8 +12,9 @@ export default function PostItem({ id, post, desc, username, hideButton }) {
     return (
         <div className="post" key={`p${id}`}>
             <h2>{post}</h2>
+            <p>{date}</p>
             <h3>Posted by: {username}</h3>
-            <p>{desc}</p>
+            <p>{desc}</p>         
             {!hideButton && <Button label="Comments" onClick={handleClick} />}
         </div>
     )

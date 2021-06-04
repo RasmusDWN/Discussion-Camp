@@ -22,6 +22,7 @@ async function createServer() {
 
   // Require Routes
   const routes = require("./routes")(topicDB);
+  const userRoutes = require("./userRoutes")(userDB);
 
   app.use(bodyParser.json()); 
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,6 +32,7 @@ async function createServer() {
   
   /**** Add routes ****/
   app.use("/api", routes);
+  app.use('/user', userRoutes);
 
   // "Redirect" all non-API GET requests to React's entry point (index.html)
   app.get('*', (req, res) =>
